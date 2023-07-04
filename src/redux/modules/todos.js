@@ -37,13 +37,19 @@ const todos = (state = initialState, action) => {
     case "ADD_TODO":
       return [...state, action.payload];
 
-    default:
-      return state;
-
     case "DELETE_TODO":
       return state.filter((todo) => todo.id !== action.payload);
 
-      // default:
+    case "SWITCH_TODO":
+      return state.map((todo) => {
+        if (todo.id === action.payload) {
+          return { ...todo, isDone: !todo.isDone };
+        } else {
+          return todo;
+        }
+      });
+
+    default:
       return state;
   }
 };

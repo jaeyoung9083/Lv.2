@@ -1,15 +1,18 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { TodoBox } from "./List.styled";
 import { DoneBtn, Delete } from "./List.styled";
 import { TLR } from "./List.styled";
 import { SubBody } from "./List.styled";
-import todos from "../../redux/modules/todos";
 
 const List = () => {
   const todos = useSelector((state) => {
     return state.todos;
   });
+
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -20,6 +23,8 @@ const List = () => {
           .map((todo) => {
             return (
               <TodoBox key={todo.id}>
+                <Link to={`/${todo.id}`}>상세페이지</Link>
+                <br />
                 <SubBody>id : </SubBody>
                 {todo.id}
                 <br />
@@ -33,9 +38,18 @@ const List = () => {
                 {todo.isDone.toString()}
                 <br />
                 {/* isDone은 toString으로 감싸줘야 boolean 타입으로 나온다. */}
-                <DoneBtn>완료</DoneBtn>
+                <DoneBtn
+                  onClick={() => {
+                    dispatch({
+                      type: "SWITCH_TODO",
+                      payload: todo.id,
+                    });
+                  }}
+                >
+                  완료
+                </DoneBtn>
                 <Delete
-                  onChange={() => {
+                  onClick={() => {
                     dispatch({
                       type: "DELETE_TODO",
                       payload: todo.id,
@@ -56,6 +70,8 @@ const List = () => {
           .map((todo) => {
             return (
               <TodoBox key={todo.id}>
+                <Link to={`/${todo.id}`}>상세페이지</Link>
+                <br />
                 <SubBody>id : </SubBody>
                 {todo.id}
                 <br />
@@ -69,8 +85,26 @@ const List = () => {
                 {todo.isDone.toString()}
                 <br />
                 {/* isDone은 toString으로 감싸줘야 boolean 타입으로 나온다. */}
-                <DoneBtn>완료</DoneBtn>
-                <Delete>삭제</Delete>
+                <DoneBtn
+                  onClick={() => {
+                    dispatch({
+                      type: "SWITCH_TODO",
+                      payload: todo.id,
+                    });
+                  }}
+                >
+                  취소
+                </DoneBtn>
+                <Delete
+                  onClick={() => {
+                    dispatch({
+                      type: "DELETE_TODO",
+                      payload: todo.id,
+                    });
+                  }}
+                >
+                  삭제
+                </Delete>
               </TodoBox>
             );
             // map은 항상 key를 가져야 한다!

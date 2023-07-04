@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import shortid from "shortid";
+import { TextBox } from "./Form.styled";
 
 const Form = () => {
   const [title, setTitle] = useState();
@@ -9,7 +10,7 @@ const Form = () => {
   const dispatch = useDispatch();
 
   return (
-    <form
+    <TextBox
       onSubmit={(event) => {
         if (!title || !body) {
           alert("제목과 내용을 입력해주세요");
@@ -43,6 +44,7 @@ const Form = () => {
           type="text"
           name="title"
         />
+
         <label>내용</label>
         <input
           value={body}
@@ -54,7 +56,7 @@ const Form = () => {
         />
       </div>
       <button>추가하기</button>
-    </form>
+    </TextBox>
   );
 };
 
